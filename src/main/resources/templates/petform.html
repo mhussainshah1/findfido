@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="www.thymeleaf.org" xmlns:sec="www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css"
+          integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+    <style>
+        .footerStyle {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+        }
+        img {
+            width: 200px;
+            height: 150px;
+            border-radius: 20px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        a:hover {
+            color: red;
+        }
+    </style>
+    <title>Fido is Missing!</title>
+</head>
+<body>
+<div sec:authorize="isAuthenticated()">
+    <div th:replace="base :: navlinks"></div>
+</div>
+<div class="container" >
+    <form action="/addPet" th:object="${pet}" method="post" enctype="multipart/form-data">
+        <input type="hidden" th:field="*{id}" />
+        <div class="form-group">
+            <h4 class="text-info"><strong>Pet's Name : </strong><input type="text" th:field="*{name}"></h4>
+            <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span><br />
+        </div>
+
+        <div class="form-group">
+            <h4 class="text-info"><strong>Date Lost : </strong><input type="date" th:field="*{datelost}" /></h4>
+            <span th:if="${#fields.hasErrors('datelost')}" th:errors="*{datelost}"></span><br />
+        </div>
+
+
+        <div th:if="${image != null}">
+            <img th:src="${image}" alt="pet image"/>
+        </div>
+
+        <input type="hidden" th:value="${image}" name="hiddenImgURL"/>
+
+        <div class="form-group">
+            <h4 class="text-info"><strong><span th:inline="text">[[${imageLabel}]]:</span></strong><input type="file" name="file" /></h4>
+        </div>
+
+        <div class="form-group">
+        <h4 class="text-info"><strong>Description: </strong></h4>
+        <textarea placeholder="Describe your missing pet!" rows="8" cols="80" th:field="*{description}" />
+            <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span><br /></div>
+
+        <select class="form-group" th:field="*{status}">
+            <option value="Lost">Lost</option>
+            <option value="Found">Found</option>
+        </select>
+
+        <div class="form-group">
+            <input class="button" type="submit" value="Submit" /></div>
+    </form><br>
+
+    <div sec:authorize="isAuthenticated()">
+        Logged User: <span sec:authentication="name"></span><br>
+        Roles: <span sec:authentication="principal.authorities"></span><br>
+        <a href="/user">Go To your page</a>
+        <a href="/">HomePage</a><br>
+        <a href="/logout">Logout</a>
+    </div>
+
+</div>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<div th:replace="base :: footer"></div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css"
+          integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+    <style>
+        .footerStyle {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+        }
+        img {
+            width: 200px;
+            height: 150px;
+            border-radius: 20px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        a:hover {
+            color: red;
+        }
+    </style>
+    <title>Fido is Missing!</title>
+</head>
+<body>
+<div sec:authorize="isAuthenticated()">
+    <div th:replace="base :: navlinks"></div>
+</div>
+<div class="container">
+<h4>New User Registration</h4>
+<form autocomplete="off" action="#" th:action="@{/register}" th:object="${user}" method="post">
+    <input type="hidden" th:field="*{id}" />
+    Fisrt Name <mark><strong>
+    <span th:if="${#fields.hasErrors('firstName')}"
+          th:errors="*{firstName}">First Name Error</span></strong></mark>
+    <input type="text" id="firstName" placeholder="First Name" th:field="*{firstName}" /><br />
+
+    Last Name <mark><strong>
+    <span th:if="${#fields.hasErrors('lastName')}"
+          th:errors="*{lastName}">Last Name Error</span></strong></mark>
+    <input type="text" id="lasttName" placeholder="Last Name" th:field="*{lastName}" /><br />
+
+    Email <mark><strong>
+    <span th:if="${#fields.hasErrors('email')}"
+          th:errors="*{email}">Email Error</span></strong></mark>
+    <input type="text" id="email" placeholder="Email" th:field="*{email}" /><br />
+
+    Username <mark><strong>
+    <span th:if="${#fields.hasErrors('username')}"
+          th:errors="*{username}">Username Error</span></strong></mark>
+    <input type="text" id="username" placeholder="Username" th:field="*{username}" /><br />
+
+    Password <mark><strong>
+    <span th:if="${#fields.hasErrors('password')}"
+          th:errors="*{password}">Password Error</span></strong></mark>
+    <input type="text" id="password" placeholder="Password" th:field="*{password}" /><br />
+
+
+    <button type="submit" class="btn btn-default">Submit</button>
+</form>
+</div>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<div th:replace="base :: footer"></div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+</body>
+</html>

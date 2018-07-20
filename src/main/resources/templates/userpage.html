@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="www.thymeleaf.org" xmlns:sec="www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css"
+          integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+    <style>
+        .footerStyle {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+        }
+        img {
+            width: 200px;
+            height: 150px;
+            border-radius: 20px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        a:hover {
+            color: red;
+        }
+    </style>
+    <title>Fido is Missing!</title>
+</head>
+<body>
+<div sec:authorize="isAuthenticated()">
+    <div th:replace="base :: navlinks"></div>
+</div>
+<div class="container">
+    <div class="jumbotron jumbotron-fluid"><h1 class="display-4">Fido is Missing</h1></div>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col"></th>
+            <th scope="col">Date Lost</th>
+            <th scope="col">Description</th>
+            <th scope="col">Status</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="pet : ${pets}">
+            <td th:text="${pet.name}"></td>
+            <td><div th:if="${pet.image} !=null"><img th:src="${pet.image}"></div></td>
+            <td th:text="${pet.datelost}"></td>
+            <td th:text="${pet.description}"></td>
+            <td> <span th:text="${pet.status}"> </span><a th:href="@{/changeStatus/{id} (id=${pet.id})}">ChangeStatus</a>
+            </td>
+            <td><div sec:authorize="isAuthenticated()">
+                <a th:href="@{/updatePet/{id} (id=${pet.id})}">Update</a>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+
+    <div sec:authorize="isAuthenticated()">
+        <form action="/addPet">
+            <button type="submit" class="btn btn-outline-danger">Post your lost pet</button>
+        </form>
+        <form action="/updateUser">
+            <button type="submit" class="btn btn-outline-info">Update Profile</button>
+        </form>
+        <br>
+        Logged User: <span sec:authentication="name"></span><br>
+        Roles: <span sec:authentication="principal.authorities"></span><br>
+
+
+        <form action="/logout">
+            <button type="submit" class="btn btn-outline-dark">Logout</button>
+        </form>
+    </div>
+
+</div>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<div th:replace="base :: footer"></div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
+</body>
+</html>
