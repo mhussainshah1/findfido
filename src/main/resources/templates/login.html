@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8"/>
-    <title>Fido is Missing!</title>
+    <div th:replace="base :: head"></div>
 </head>
 <body>
 <div th:if="${param.error}">
@@ -22,5 +21,8 @@
     </div>
     <div><input type="submit" value="Sign In"/></div>
 </form>
+
+<div th:replace="base :: footer"></div>
+<div th:replace="base :: bootstrap_footer"></div>
 </body>
 </html>

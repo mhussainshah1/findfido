@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 
 @Controller
@@ -99,14 +101,17 @@ public class HomeContoller {
             {
                 pet.setImage(image);
             }
-            pet.setUser(userRepository.findByUsername(username));
+
+            User u = userRepository.findByUsername(username);
+            pet.setUsers(Arrays.asList(u));
             petRepository.save(pet);
         }
         else {
             try {
                 Map uploadResult = cloudc.upload(file.getBytes(), ObjectUtils.asMap("resourcetype", "auto"));
                 pet.setImage(uploadResult.get("url").toString());
-                pet.setUser(userRepository.findByUsername(username));
+                User u = userRepository.findByUsername(username);
+                pet.setUsers(Arrays.asList(u));
                 petRepository.save(pet);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -139,7 +144,9 @@ public class HomeContoller {
         UserDetails userDetails = (UserDetails)authentication.getPrincipal();
         String username = principal.getName();
         User user = userRepository.findByUsername(username);
-        model.addAttribute("pets", petRepository.findAllByUser(user));
+
+        //todo: implement this method
+        //model.addAttribute("pets", petRepository.findAllByUser(user));
         return "userpage";
     }
 

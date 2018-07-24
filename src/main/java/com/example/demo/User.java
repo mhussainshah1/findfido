@@ -34,6 +34,18 @@ public class User {
     @Column(name = "username")
     private String username;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(joinColumns = @JoinColumn(name="user_id"),
+            inverseJoinColumns = @JoinColumn(name="role_id"))
+    private Collection<Role> roles;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(joinColumns = @JoinColumn(name="user_id"),
+            inverseJoinColumns = @JoinColumn(name="pet_id"))
+    private Collection<Pet> pets;
+
+    public User() {
+    }
 
     public User(String email, String password, String firstName, String lastName, boolean enabled, String username) {
         this.email = email;
@@ -42,25 +54,6 @@ public class User {
         this.lastName = lastName;
         this.enabled = enabled;
         this.username = username;
-    }
-
-    public User() {
-    }
-
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(joinColumns = @JoinColumn(name="user_id"), inverseJoinColumns = @JoinColumn(name="role_id"))
-    private Collection<Role> roles;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
-    public Set<Pet> pets;
-
-    public Set<Pet> getPets() {
-        return pets;
-    }
-
-    public void setPets(Set<Pet> pets) {
-        this.pets = pets;
     }
 
     public long getId() {
@@ -126,5 +119,13 @@ public class User {
 
     public void setRoles(Collection<Role> roles) {
         this.roles = roles;
+    }
+
+    public Collection<Pet> getPets() {
+        return pets;
+    }
+
+    public void setPets(Collection<Pet> pets) {
+        this.pets = pets;
     }
 }

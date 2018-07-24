@@ -3,6 +3,7 @@ package com.example.demo;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Collection;
 
 
 @Entity
@@ -23,11 +24,22 @@ public class Pet {
 
     private String description;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name ="user_id")
-    private User user;
+    @ManyToMany(mappedBy = "pets", fetch = FetchType.EAGER)
+    private Collection<User> users;
 
     private String status;
+
+    public Pet() {
+    }
+
+    public Pet(@NotNull @Size(min = 1) String name, @NotNull @Size(min = 1) String datelost, String image, String description, Collection<User> users, String status) {
+        this.name = name;
+        this.datelost = datelost;
+        this.image = image;
+        this.description = description;
+        this.users = users;
+        this.status = status;
+    }
 
     public String getStatus() {
         return status;
@@ -77,11 +89,11 @@ public class Pet {
         this.description = description;
     }
 
-    public User getUser() {
-        return user;
+    public Collection<User> getUsers() {
+        return users;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUsers(Collection<User> users) {
+        this.users = users;
     }
 }
