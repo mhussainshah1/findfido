@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.security.Principal;
-import java.util.Arrays;
 import java.util.Map;
 
 @Controller
@@ -58,6 +57,11 @@ public class HomeContoller {
         if (result.hasErrors()) {
             return "registration";
         } else {
+            Iterable<Pet> pets = petRepository.findAllByUsers(user);
+            for (Pet pet : pets) {
+                petRepository.save(pet);
+                user.getPets().add(pet);
+            }
             userService.saveUser(user);
             model.addAttribute("message", "User Account Successfully Created");
         }
@@ -92,9 +96,9 @@ public class HomeContoller {
                 return "redirect:/";
             }
         }
-        Boolean isAdmin = request.isUserInRole("ADMIN");
+      /*  Boolean isAdmin = request.isUserInRole("ADMIN");
         Boolean isUser = request.isUserInRole("USER");
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();*/
         String username = principal.getName();
         User u = userRepository.findByUsername(username);
         pet.getUsers().add(u);
@@ -148,7 +152,7 @@ public class HomeContoller {
                 .anyMatch(r -> r.getAuthority().equals("USER"));
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
-        if(isUser){
+        if (isUser) {
             String username = principal.getName();//userDetails.getUsername()
             User user = userRepository.findByUsername(username);
             model.addAttribute("pets", petRepository.findAllByUsers(user));
@@ -161,10 +165,9 @@ public class HomeContoller {
 
     @RequestMapping("/updateUser")
     public String viewUser(Model model, HttpServletRequest request, Authentication authentication, Principal principal) {
-        Boolean isAdmin = request.isUserInRole("ADMIN");
+       /* Boolean isAdmin = request.isUserInRole("ADMIN");
         Boolean isUser = request.isUserInRole("USER");
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();*/
         String username = principal.getName();
         model.addAttribute("user", userRepository.findByUsername(username));
         return "registration";

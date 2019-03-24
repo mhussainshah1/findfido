@@ -49,8 +49,7 @@ public class DataLoader implements CommandLineRunner{
         admin.setPassword(passwordEncoder.encode(admin.getPassword()));
         userRepository.save(admin);
 
-        //User Data
-
+        //Pet Data
         Pet fido = new Pet("fido","2019-03-25","https://res.cloudinary.com/mhussainshah1/image/upload/v1553388047/dog.jpg","friendly dog", "lost");
         fido.getUsers().add(bob);
         petRepository.save(fido);
