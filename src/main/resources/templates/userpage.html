@@ -10,7 +10,9 @@
     <div th:replace="base :: navlinks"></div>
 </div>
 <div class="container">
-    <div class="jumbotron jumbotron-fluid"><h1 class="display-4">Fido is Missing</h1></div>
+    <div align="center" class="jumbotron jumbotron-fluid">
+        <h2 class="display-4">Fido is Missing</h2>
+    </div>
     <table class="table table-striped">
         <thead>
         <tr>
@@ -28,7 +30,7 @@
             <td><div th:if="${pet.image} !=null"><img th:src="${pet.image}"></div></td>
             <td th:text="${pet.datelost}"></td>
             <td th:text="${pet.description}"></td>
-            <td> <span th:text="${pet.status}"> </span><a th:href="@{/changeStatus/{id} (id=${pet.id})}">ChangeStatus</a>
+            <td><span th:text="${pet.status}"></span> - <a th:href="@{/changeStatus/{id} (id=${pet.id})}">ChangeStatus</a>
             </td>
             <td><div sec:authorize="isAuthenticated()">
                 <a th:href="@{/updatePet/{id} (id=${pet.id})}">Update</a>
@@ -37,7 +39,6 @@
         </tr>
         </tbody>
     </table>
-
 
     <div sec:authorize="isAuthenticated()">
         <form action="/addPet">

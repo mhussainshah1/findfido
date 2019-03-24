@@ -14,32 +14,28 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
-
-    @Bean
-    public PasswordEncoder encoder()
-    {
-        return new BCryptPasswordEncoder();
-    }
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private SSUserDetailsService userDetailsService;
-
     @Autowired
     private UserRepository userRepository;
 
+    @Bean
+    public PasswordEncoder encoder() {
+        return new BCryptPasswordEncoder();
+    }
+
     @Override
-    public UserDetailsService userDetailsServiceBean() throws Exception
-    {
+    public UserDetailsService userDetailsServiceBean() throws Exception {
         return new SSUserDetailsService(userRepository);
     }
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception
-    {
+    protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/","/h2","/login", "/register","/css/**").permitAll()
+                .antMatchers("/", "/h2", "/login", "/register", "/css/**").permitAll()
                 .antMatchers("/addPet").access("hasAnyAuthority('USER', 'ADMIN')")
                 .anyRequest().authenticated()
                 .and()
@@ -57,8 +53,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
     }
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception
-    {
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
                 .userDetailsService(userDetailsServiceBean()).passwordEncoder(encoder());
     }

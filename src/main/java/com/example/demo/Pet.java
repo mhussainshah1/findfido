@@ -3,8 +3,6 @@ package com.example.demo;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,11 +14,11 @@ public class Pet {
     private long id;
 
     @NotNull
-    @Size(min=1)
+    @Size(min = 1)
     private String name;
 
     @NotNull
-    @Size(min=1)
+    @Size(min = 1)
     private String datelost;
 
     private String image;

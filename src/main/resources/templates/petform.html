@@ -1,14 +1,19 @@
 <!DOCTYPE html>
+
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head th:replace="base :: head">
     <title>petform</title>
 </head>
+
 <body>
+
 <div sec:authorize="isAuthenticated()">
     <div th:replace="base :: navlinks"></div>
 </div>
+
 <div class="container" >
     <form action="/addPet" th:object="${pet}" method="post" enctype="multipart/form-data">
         <input type="hidden" th:field="*{id}" />
@@ -46,8 +51,8 @@
 
         <div class="form-group">
             <input class="button" type="submit" value="Submit" /></div>
-    </form><br>
-
+    </form>
+    <br>
     <div sec:authorize="isAuthenticated()">
         Logged User: <span sec:authentication="name"></span><br>
         Roles: <span sec:authentication="principal.authorities"></span><br>

@@ -1,7 +1,6 @@
 package com.example.demo;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Size;
 import java.util.Collection;
 
@@ -11,7 +10,7 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(unique=true)
+    @Column(unique = true)
     @Size(max = 100)
     private String role;
 

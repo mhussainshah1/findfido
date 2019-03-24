@@ -5,11 +5,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import javax.validation.constraints.AssertTrue;
 import java.util.Arrays;
 
 @Component
-public class DataLoader implements CommandLineRunner{
+public class DataLoader implements CommandLineRunner {
 
     @Autowired
     UserRepository userRepository;
@@ -50,13 +49,13 @@ public class DataLoader implements CommandLineRunner{
         userRepository.save(admin);
 
         //Pet Data
-        Pet fido = new Pet("fido","2019-03-25","https://res.cloudinary.com/mhussainshah1/image/upload/v1553388047/dog.jpg","friendly dog", "lost");
+        Pet fido = new Pet("fido", "2019-03-25", "https://res.cloudinary.com/mhussainshah1/image/upload/v1553388047/dog.jpg", "friendly dog", "lost");
         fido.getUsers().add(bob);
         petRepository.save(fido);
         bob.getPets().add(fido);
         userRepository.save(bob);
 
-        Pet fifi = new Pet("fifi","2019-03-25","https://res.cloudinary.com/mhussainshah1/image/upload/v1553388980/fido.jpg","grumpy dog", "lost");
+        Pet fifi = new Pet("fifi", "2019-03-25", "https://res.cloudinary.com/mhussainshah1/image/upload/v1553388980/fido.jpg", "grumpy dog", "lost");
         fifi.getUsers().add(alice);
         petRepository.save(fifi);
         alice.getPets().add(fifi);
