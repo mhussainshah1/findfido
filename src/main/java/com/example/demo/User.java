@@ -1,9 +1,7 @@
 package com.example.demo;
-
+//todo BCryptpassword
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -35,7 +33,7 @@ public class User {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Collection<Role> roles;
+    private Set<Role> roles;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(joinColumns = @JoinColumn(name = "user_id"),
@@ -43,7 +41,7 @@ public class User {
     private Set<Pet> pets;
 
     public User() {
-        roles = new ArrayList<>();
+        roles = new HashSet<>();
         pets = new HashSet<>();
     }
 
@@ -114,20 +112,19 @@ public class User {
         this.username = username;
     }
 
-    public Collection<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Collection<Role> roles) {
-        this.roles = roles;
-    }
-
-
     public Set<Pet> getPets() {
         return pets;
     }
 
     public void setPets(Set<Pet> pets) {
         this.pets = pets;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }

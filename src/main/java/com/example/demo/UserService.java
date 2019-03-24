@@ -37,14 +37,16 @@ public class UserService {
     }
 
     public void saveUser(User user) {
-        user.setRoles(Arrays.asList(roleRepository.findByRole("USER")));
+        //user.setRoles(Arrays.asList(roleRepository.findByRole("USER")));
+        user.getRoles().add(roleRepository.findByRole("USER"));
         user.setEnabled(true);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
 
     public void saveAdmin(User user, MultipartFile file) {
-        user.setRoles(Arrays.asList(roleRepository.findByRole("ADMIN")));
+//        user.setRoles(Arrays.asList(roleRepository.findByRole("ADMIN")));
+        user.getRoles().add(roleRepository.findByRole("ADMIN"));
         user.setEnabled(true);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);

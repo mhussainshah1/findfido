@@ -45,22 +45,28 @@ public class HomeContoller {
         return "login";
     }
 
-    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    @GetMapping("/register")
     public String showRegistrationPage(Model model) {
         model.addAttribute("user", new User());
         return "registration";
     }
 
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String processRegistrationPage(@Valid @ModelAttribute("user") User user, BindingResult result, Model model) {
+    @PostMapping("/register")
+    public String processRegistrationPage(@Valid @ModelAttribute("user") User user,
+                                          BindingResult result,
+                                          Model model) {
         model.addAttribute("user", user);
         if (result.hasErrors()) {
             return "registration";
         } else {
-            Iterable<Pet> pets = petRepository.findAllByUsers(user);
-            for (Pet pet : pets) {
-                petRepository.save(pet);
-                user.getPets().add(pet);
+            System.out.println(userRepository.findById(user.getId()).isPresent());
+            boolean isUser = userRepository.findById(user.getId()).isPresent();
+            if(isUser){//For Update Registration
+                Iterable<Pet> pets = petRepository.findAllByUsers(user);
+                for (Pet pet : pets) {
+                    petRepository.save(pet);
+                    user.getPets().add(pet);
+                }
             }
             userService.saveUser(user);
             model.addAttribute("message", "User Account Successfully Created");
