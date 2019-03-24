@@ -57,10 +57,13 @@ public class HomeContoller {
         if (result.hasErrors()) {
             return "registration";
         } else {
-            Iterable<Pet> pets = petRepository.findAllByUsers(user);
-            for (Pet pet : pets) {
-                petRepository.save(pet);
-                user.getPets().add(pet);
+            boolean isUser = userRepository.findById(user.getId()).isPresent();
+            if(isUser){//For Update Registration
+                Iterable<Pet> pets = petRepository.findAllByUsers(user);
+                for (Pet pet : pets) {
+                    petRepository.save(pet);
+                    user.getPets().add(pet);
+                }
             }
             userService.saveUser(user);
             model.addAttribute("message", "User Account Successfully Created");
