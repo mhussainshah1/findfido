@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="www.thymeleaf.org" xmlns:sec="www.thymeleaf.org/extras/spring-security">
-<head>
-    <div th:replace="base :: head"></div>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="base :: head">
+    <title>list</title>
 </head>
 <body>
 <div sec:authorize="isAuthenticated()">
@@ -9,7 +11,7 @@
 </div>
 <div class="container">
     <div class="jumbotron jumbotron-fluid"><h1 class="display-4">
-        <img src="http://res.cloudinary.com/dkoqxjnsr/image/upload/ar_1:1,b_rgb:262c35,bo_5px_solid_rgb:ff0000,c_fill,g_auto,r_max/v1532009414/missing_dog_ohiyhq.jpg" alt="Missing Dog Logo"
+        <img src="http://res.cloudinary.com/dkoqxjnsr/image/upload/ar_1:1,b_rgb:262c35,bo_5px_solid_rgb:ff0000,c_fill,g_auto,r_max/v1532009414/missing_dog_ohiyhq.jpg" alt="Missing Dog Logo">
         Fido is Missing!</h1></div>
     <table class="table table-striped">
         <thead>
@@ -25,7 +27,12 @@
         </thead>
         <tbody>
         <tr th:each="pet : ${pets}">
-            <td th:text="${pet.user.username}"></td>
+            <!--<td th:text="${pet.user.username}"></td>-->
+            <td>
+                <span th:each="user: ${pet.users}"
+                      th:text="${user.username}">
+                </span>
+            </td>
             <td th:text="${pet.name}"></td>
             <td><div th:if="${pet.image} !=null"><img th:src="${pet.image}"></div></td>
             <td th:text="${pet.datelost}"></td>

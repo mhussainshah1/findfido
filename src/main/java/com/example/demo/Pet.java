@@ -3,7 +3,10 @@ package com.example.demo;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
@@ -24,22 +27,25 @@ public class Pet {
 
     private String description;
 
-    @ManyToMany(mappedBy = "pets", fetch = FetchType.EAGER)
-    private Collection<User> users;
-
     private String status;
 
+    @ManyToMany(mappedBy = "pets", fetch = FetchType.EAGER)
+    private Set<User> users;
+
     public Pet() {
+        image = "";
+        users = new HashSet<>();
     }
 
-    public Pet(@NotNull @Size(min = 1) String name, @NotNull @Size(min = 1) String datelost, String image, String description, Collection<User> users, String status) {
+    public Pet(@NotNull @Size(min = 1) String name, @NotNull @Size(min = 1) String datelost, String image, String description, String status) {
+        this();
         this.name = name;
         this.datelost = datelost;
         this.image = image;
         this.description = description;
-        this.users = users;
         this.status = status;
     }
+
 
     public String getStatus() {
         return status;
@@ -89,11 +95,12 @@ public class Pet {
         this.description = description;
     }
 
-    public Collection<User> getUsers() {
+
+    public Set<User> getUsers() {
         return users;
     }
 
-    public void setUsers(Collection<User> users) {
+    public void setUsers(Set<User> users) {
         this.users = users;
     }
 }

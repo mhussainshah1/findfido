@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="www.thymeleaf.org">
-<head>
-    <div th:replace="base :: head"></div>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="base :: head">
+    <title>registration</title>
 </head>
 <body>
 <div sec:authorize="isAuthenticated()">
@@ -34,7 +36,7 @@
     Password <mark><strong>
     <span th:if="${#fields.hasErrors('password')}"
           th:errors="*{password}">Password Error</span></strong></mark>
-    <input type="text" id="password" placeholder="Password" th:field="*{password}" /><br />
+    <input type="password" id="password" placeholder="Password" th:field="*{password}" /><br />
 
 
     <button type="submit" class="btn btn-default">Submit</button>

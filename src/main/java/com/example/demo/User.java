@@ -6,7 +6,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -42,12 +44,15 @@ public class User {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(joinColumns = @JoinColumn(name="user_id"),
             inverseJoinColumns = @JoinColumn(name="pet_id"))
-    private Collection<Pet> pets;
+    private Set<Pet> pets;
 
     public User() {
+        roles = new ArrayList<>();
+        pets = new HashSet<>();
     }
 
     public User(String email, String password, String firstName, String lastName, boolean enabled, String username) {
+        this();
         this.email = email;
         this.password = password;
         this.firstName = firstName;
@@ -121,11 +126,12 @@ public class User {
         this.roles = roles;
     }
 
-    public Collection<Pet> getPets() {
+
+    public Set<Pet> getPets() {
         return pets;
     }
 
-    public void setPets(Collection<Pet> pets) {
+    public void setPets(Set<Pet> pets) {
         this.pets = pets;
     }
 }

@@ -1,7 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="www.thymeleaf.org" xmlns:sec="www.thymeleaf.org/extras/spring-security">
-<head>
-    <div th:replace="base :: head"></div>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="base :: head">
+    <title>petform</title>
 </head>
 <body>
 <div sec:authorize="isAuthenticated()">
@@ -33,10 +35,11 @@
 
         <div class="form-group">
         <h4 class="text-info"><strong>Description: </strong></h4>
-        <textarea placeholder="Describe your missing pet!" rows="8" cols="80" th:field="*{description}" />
+            <textarea placeholder="Describe your missing pet!" rows="8" cols="80" th:field="*{description}"></textarea>
             <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span><br /></div>
 
-        <select class="form-group" th:field="*{status}">
+        <label for="status">Status</label>
+        <select id="status" class="form-group" th:field="*{status}">
             <option value="Lost">Lost</option>
             <option value="Found">Found</option>
         </select>
