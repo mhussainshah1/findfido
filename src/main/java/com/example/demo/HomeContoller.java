@@ -65,7 +65,7 @@ public class HomeContoller {
             userService.saveUser(user);
             model.addAttribute("message", "User Account Successfully Created");
         }
-        return "redirect:/";
+        return "redirect:/login";
     }
 
     @GetMapping("/addPet")
