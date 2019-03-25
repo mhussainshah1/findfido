@@ -139,7 +139,6 @@ public class HomeContoller {
         String username = principal.getName();
         User user = userRepository.findByUsername(username);
 
-        //todo: implement this method
         model.addAttribute("pets", petRepository.findAllByUsers(user));
         return "userpage";
     }*/
