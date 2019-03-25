@@ -45,5 +45,4 @@ public class SSUserDetailsService implements UserDetailsService {
         System.out.println("User authorities are" + authorities.toString());
         return authorities;
     }
-
 }
