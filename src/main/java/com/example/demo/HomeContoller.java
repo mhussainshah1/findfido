@@ -61,14 +61,19 @@ public class HomeContoller {
         } else {
             System.out.println(userRepository.findById(user.getId()).isPresent());
             boolean isUser = userRepository.findById(user.getId()).isPresent();
-            if(isUser){//For Update Registration
+            if (isUser) {//For Update Registration
                 Iterable<Pet> pets = petRepository.findAllByUsers(user);
                 for (Pet pet : pets) {
                     petRepository.save(pet);
                     user.getPets().add(pet);
                 }
             }
-            userService.saveUser(user);
+            if(userService.isUser()){
+                userService.saveUser(user);
+            }
+            if(userService.isAdmin()){
+                userService.saveAdmin(user);
+            }
             model.addAttribute("message", "User Account Successfully Created");
         }
         return "redirect:/login";
@@ -148,21 +153,13 @@ public class HomeContoller {
                            HttpServletRequest request,
                            Authentication authentication,
                            Principal principal) {
-
-        boolean isAdmin = authentication.getAuthorities()
-                .stream()
-                .anyMatch(r -> r.getAuthority().equals("ADMIN"));
-        boolean isUser = authentication.getAuthorities()
-                .stream()
-                .anyMatch(r -> r.getAuthority().equals("USER"));
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-
-        if (isUser) {
+        if (userService.isUser()) {
             String username = principal.getName();//userDetails.getUsername()
             User user = userRepository.findByUsername(username);
             model.addAttribute("pets", petRepository.findAllByUsers(user));
         }
-        if (isAdmin) {
+        if (userService.isAdmin()) {
             model.addAttribute("pets", petRepository.findAll());
         }
         return "userpage";

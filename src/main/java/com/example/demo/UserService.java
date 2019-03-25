@@ -4,22 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.Arrays;
-
 
 @Service
 public class UserService {
-    @Autowired
-    UserRepository userRepository;
 
     @Autowired
-    RoleRepository roleRepository;
+    private UserRepository userRepository;
 
-    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Autowired
     public UserService(UserRepository userRepository) {
@@ -39,18 +33,16 @@ public class UserService {
     }
 
     public void saveUser(User user) {
-        //user.setRoles(Arrays.asList(roleRepository.findByRole("USER")));
         user.getRoles().add(roleRepository.findByRole("USER"));
         user.setEnabled(true);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setPassword(encodedPassword(user.getPassword()));
         userRepository.save(user);
     }
 
-    public void saveAdmin(User user, MultipartFile file) {
-//        user.setRoles(Arrays.asList(roleRepository.findByRole("ADMIN")));
+    public void saveAdmin(User user) {
         user.getRoles().add(roleRepository.findByRole("ADMIN"));
         user.setEnabled(true);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setPassword(encodedPassword(user.getPassword()));
         userRepository.save(user);
     }
 
@@ -62,8 +54,23 @@ public class UserService {
         return user;
     }
 
-    public void encode(String password){
+    public String encodedPassword(String password) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        getUser().setPassword(passwordEncoder.encode(password));
+        return (passwordEncoder.encode(password));
     }
+
+    public boolean isAdmin(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication.getAuthorities()
+                .stream()
+                .anyMatch(r -> r.getAuthority().equals("ADMIN"));
+    }
+
+    public boolean isUser(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication.getAuthorities()
+                .stream()
+                .anyMatch(r -> r.getAuthority().equals("USER"));
+    }
+
 }
