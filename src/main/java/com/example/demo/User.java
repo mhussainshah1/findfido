@@ -1,5 +1,4 @@
 package com.example.demo;
-//todo BCryptpassword
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -80,7 +79,6 @@ public class User {
     }
 
     public String getPassword() {
-
         return password;
     }
 
@@ -135,4 +133,6 @@ public class User {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
+
+
 }

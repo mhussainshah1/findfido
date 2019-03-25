@@ -44,7 +44,6 @@ public class Pet {
         this.status = status;
     }
 
-
     public String getStatus() {
         return status;
     }

@@ -18,6 +18,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private SSUserDetailsService userDetailsService;
+
     @Autowired
     private UserRepository userRepository;
 
@@ -35,8 +36,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/", "/h2", "/login", "/register", "/css/**").permitAll()
-                .antMatchers("/addPet").access("hasAnyAuthority('USER', 'ADMIN')")
+                .antMatchers("/", "/h2", "/login", "/register",
+                        "/css/**","/img/**").permitAll()
+                //.antMatchers("/addPet").access("hasAnyAuthority('USER', 'ADMIN')")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().loginPage("/login").permitAll()

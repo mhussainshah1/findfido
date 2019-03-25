@@ -26,22 +26,24 @@ public class SSUserDetailsService implements UserDetailsService {
         try {
             User user = userRepository.findByUsername(username);
             if (user == null) {
+                System.out.println("User not found with the provided username" + user.toString());
                 return null;
             }
-            return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), getAuthorities(user));
+            System.out.println("User from username " + user.toString());
+            return new CustomerUserDetails(user, getAuthorities(user));
         } catch (Exception e) {
             throw new UsernameNotFoundException("User not found");
         }
     }
 
     private Set<GrantedAuthority> getAuthorities(User user) {
-        Set<GrantedAuthority> authorities = new HashSet<GrantedAuthority>();
+        Set<GrantedAuthority> authorities = new HashSet<>();
         for (Role role : user.getRoles()) {
             GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(role.getRole());
             authorities.add(grantedAuthority);
         }
+        System.out.println("User authorities are" + authorities.toString());
         return authorities;
     }
 
 }
-
