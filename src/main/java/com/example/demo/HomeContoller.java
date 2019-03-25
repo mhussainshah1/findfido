@@ -59,7 +59,6 @@ public class HomeContoller {
         if (result.hasErrors()) {
             return "registration";
         } else {
-            System.out.println(userRepository.findById(user.getId()).isPresent());
             boolean isUser = userRepository.findById(user.getId()).isPresent();
             if (isUser) {//For Update Registration
                 Iterable<Pet> pets = petRepository.findAllByUsers(user);
@@ -153,7 +152,10 @@ public class HomeContoller {
                            HttpServletRequest request,
                            Authentication authentication,
                            Principal principal) {
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        /*Boolean isAdmin = request.isUserInRole("ADMIN");
+        Boolean isUser = request.isUserInRole("USER");
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();*/
+
         if (userService.isUser()) {
             String username = principal.getName();//userDetails.getUsername()
             User user = userRepository.findByUsername(username);
